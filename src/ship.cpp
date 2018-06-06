@@ -16,7 +16,7 @@ Ship::Ship()
 	shape.setPoint(1, sf::Vector2f(-10.0f, 7.5f));
 	shape.setPoint(2, sf::Vector2f(-10.0f, -7.5f));
 
-	shape.setFillColor(sf::Color::Black);
+	shape.setFillColor(sf::Color::White);
 	shape.setOutlineColor(sf::Color::White);
 	shape.setOutlineThickness(1);
 	shape.setPosition(0.0f, 0.0f);
