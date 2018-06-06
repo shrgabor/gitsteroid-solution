@@ -1,7 +1,7 @@
 #include "game.h"
 
-#include <constants.h>
-#include <bullet.h>
+#include "constants.h"
+#include "bullet.h"
 
 Game::Game()
 	:
@@ -10,6 +10,11 @@ Game::Game()
 
 void Game::init()
 {
+	for (int i = 0; i < game::NUM_OF_ASTEROIDS; ++i) {
+		Asteroid a;
+		asteroids.push_back(a);
+	}
+
 	createWindow();
 }
 
@@ -60,11 +65,17 @@ void Game::update(float frameTime)
 
 	ship.update(frameTime);
 
+	updateAsteroids(frameTime);
 	updateBullets(frameTime);
+	checkObjectCollision();
 }
 
 void Game::render(sf::RenderTarget &target)
 {
+	for (auto it : asteroids) {
+		target.draw(it);
+	}
+
 	target.draw(ship);
 
 	for (auto it : bullets) {
@@ -81,6 +92,20 @@ void Game::onEvent(const sf::Event &event)
 	}
 }
 
+void Game::updateAsteroids(float frameTime)
+{
+	auto asteroidIt = asteroids.begin();
+	while (asteroidIt != asteroids.end()) {
+		if (asteroidIt->isExist()) {
+			asteroidIt->update(frameTime);
+			++asteroidIt;
+		}
+		else {
+			asteroidIt = asteroids.erase(asteroidIt);
+		}
+	}
+}
+
 void Game::updateBullets(float frameTime)
 {
 	auto it = bullets.begin();
@@ -91,6 +116,21 @@ void Game::updateBullets(float frameTime)
 		}
 		else {
 			it = bullets.erase(it);
+		}
+	}
+}
+
+void Game::checkObjectCollision()
+{
+	for (auto asteroidIt = asteroids.begin(); asteroidIt != asteroids.end(); ++asteroidIt) {
+		for (auto bulletIt = bullets.begin(); bulletIt != bullets.end(); ++bulletIt) {
+			if (bulletIt->isExist()) {
+				if (asteroidIt->collide(bulletIt->getPosition())) {
+					bulletIt->impact();
+					asteroidIt->explode();
+					break;
+				}
+			}
 		}
 	}
 }
