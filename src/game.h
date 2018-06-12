@@ -15,6 +15,9 @@ public:
 	void init();
 
 protected:
+	static const int NUM_OF_ASTEROIDS = 10; // Declaration is ok here
+	static const char *GAME_NAME;   // Defined in cpp
+
 	void createWindow();
 	void update(float frameTime);
 	void render(sf::RenderTarget &target);

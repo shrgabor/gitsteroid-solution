@@ -3,6 +3,8 @@
 #include "constants.h"
 #include "bullet.h"
 
+const char* Game::GAME_NAME = "GitSteroid"; // Definition do not use 'static'
+
 Game::Game()
 	:
 	running(false)
@@ -10,7 +12,7 @@ Game::Game()
 
 void Game::init()
 {
-	for (int i = 0; i < game::NUM_OF_ASTEROIDS; ++i) {
+	for (int i = 0; i < NUM_OF_ASTEROIDS; ++i) {
 		Asteroid a;
 		asteroids.push_back(a);
 	}
@@ -51,7 +53,7 @@ void Game::createWindow()
 		window.close();
 	}
 
-	window.create(sf::VideoMode(graphics::APP_WIDTH, graphics::APP_HEIGHT), game::GAME_NAME);
+	window.create(sf::VideoMode(graphics::APP_WIDTH, graphics::APP_HEIGHT), GAME_NAME);
 	window.setFramerateLimit(graphics::APP_FPS);
 	window.setKeyRepeatEnabled(false);
 }
